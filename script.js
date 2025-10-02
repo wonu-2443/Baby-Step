@@ -39,6 +39,8 @@ const addTask = (task) => {
         evt.preventDefault();
         deleteTasks(deleteButton);
     });
+
+    task_list.appendChild(listItem);
 };
 
 
