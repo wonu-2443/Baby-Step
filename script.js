@@ -29,6 +29,9 @@ const addTask = (task) => {
     addSubtaskButton.innerHTML = "細分化";
     listItem.appendChild(addSubtaskButton)
 
+    assSubtaskButton.addEventListener("click", () => {
+        
+    }
     //親削除ボタンの追加
     const deleteButton = document.createElement("button");
     deleteButton.innerHTML = "削除";
