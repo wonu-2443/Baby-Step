@@ -29,9 +29,12 @@ const addTask = (task) => {
     addSubtaskButton.innerHTML = "細分化";
     listItem.appendChild(addSubtaskButton)
 
-    assSubtaskButton.addEventListener("click", () => {
-        
-    }
+    addSubtaskButton.addEventListener("click", () => {
+        const subtask = document.createElement("input");
+        subtask.type = "text";
+        subtask.placeholder = "子タスクを入力";
+        listItem.appendChild(subtask);
+    });
     //親削除ボタンの追加
     const deleteButton = document.createElement("button");
     deleteButton.innerHTML = "削除";
@@ -45,7 +48,19 @@ const addTask = (task) => {
 
     task_list.appendChild(listItem);
 };
+//子タスク追加関数
+const addSubtask = (subtask) => {
+     const newSubtask = createTask(subtask);
+     subtasks.push(newSubtask);
 
+     const sublistItem = document.createElement("li");
+    sublistItem.textContent = subtask;
+
+
+    addSubSubtaskButton.appendChild(sublistItem);
+
+
+}
 
 const deleteTasks = (deleteButton) => {
     const chosenTask = deleteButton.closest("li");
