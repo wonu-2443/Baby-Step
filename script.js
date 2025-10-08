@@ -27,13 +27,23 @@ const addTask = (task) => {
     //子追加ボタン
     const addSubtaskButton = document.createElement("button");
     addSubtaskButton.innerHTML = "細分化";
-    listItem.appendChild(addSubtaskButton)
+    listItem.appendChild(addSubtaskButton);
 
     addSubtaskButton.addEventListener("click", () => {
-        const subtask = document.createElement("input");
-        subtask.type = "text";
-        subtask.placeholder = "子タスクを入力";
-        listItem.appendChild(subtask);
+        const subtaskInput = document.createElement("input");
+        subtaskInput.type = "text";
+        subtaskInput.placeholder = "子タスクを入力";
+        
+        subtaskInput.addEventListener("keypress", e =>{
+            if (e.key === "Enter" && subtaskInput.value.trim() !=="") {
+                addSubtask(subtaskInput.value, subtaskList, newtask);
+                subtaskInput.remove();
+            }
+        });
+
+        listItem.insertBefore(subtaskInput, subtaskList.nextSibling);
+        subtaskInput.focus();
+        
     });
     //親削除ボタンの追加
     const deleteButton = document.createElement("button");
@@ -49,16 +59,13 @@ const addTask = (task) => {
     task_list.appendChild(listItem);
 };
 //子タスク追加関数
-const addSubtask = (subtask) => {
-     const newSubtask = createTask(subtask);
-     subtasks.push(newSubtask);
+const addSubtask = (subtask, subtaskList, parentTask) => {
+    const newSubtask = createTask(subtask);
+    parentTask.subtasks.push(newSubtask);
 
-     const sublistItem = document.createElement("li");
+    const sublistItem = document.createElement("li");
     sublistItem.textContent = subtask;
-
-
-    addSubSubtaskButton.appendChild(sublistItem);
-
+    subtaskList.appendChild(sublistItem);
 
 }
 
