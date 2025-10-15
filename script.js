@@ -80,7 +80,7 @@ const addSubtask = (subtask, subtaskList, parentTask) => {
 //子タスクの削除関数
 const deleSubtask = (deleSubtaskButton) => {
     const chosenSubtask = deleSubtaskButton.closest("li");
-
+    const subtaskText = chosenSubtask.querySelector("span").textContent;
 }
 
 const deleteTasks = (deleteButton) => {
