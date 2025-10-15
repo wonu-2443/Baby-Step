@@ -68,6 +68,11 @@ const addSubtask = (subtask, subtaskList, parentTask) => {
     subtaskList.appendChild(sublistItem);
 
 }
+//子タスクの削除関数
+const deleSubtask = (deleSubtaskButton) => {
+    const chosenSubtask = deleSubtaskButtton.closest("li");
+
+}
 
 const deleteTasks = (deleteButton) => {
     const chosenTask = deleteButton.closest("li");
