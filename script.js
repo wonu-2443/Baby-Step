@@ -53,7 +53,7 @@ const addTask = (task) => {
     //削除機能
     deleteButton.addEventListener("click", evt => {
         evt.preventDefault();
-        deleteTasks(deleteButton);
+        deleteTask(deleteButton);
     });
 
     task_list.appendChild(listItem);
@@ -65,16 +65,16 @@ const addSubtask = (subtask, subtaskList, parentTask) => {
 
     const sublistItem = document.createElement("li");
 
-    const subtaskSpan = doucument.createElement("span");
+    const subtaskSpan = document.createElement("span");
     subtaskSpan.textContent = subtask;
     sublistItem.appendChild(subtaskSpan);
 
-    const deleteSubtaskButton = doucument.createElement("button");
+    const deleteSubtaskButton = document.createElement("button");
     deleteSubtaskButton.textContent = "削除";
     sublistItem.appendChild(deleteSubtaskButton);
 
-    deleteSubtaskButton.addEventListner("click", () => {
-        deleteSubtaskButton(deleteSubtaskButton, parentTask);
+    deleteSubtaskButton.addEventListener("click", () => {
+        deleteSubtask(deleteSubtaskButton, parentTask);
     });
     subtaskList.appendChild(sublistItem);
 };
