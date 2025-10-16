@@ -81,7 +81,14 @@ const addSubtask = (subtask, subtaskList, parentTask) => {
 const deleSubtask = (deleSubtaskButton) => {
     const chosenSubtask = deleSubtaskButton.closest("li");
     const subtaskText = chosenSubtask.querySelector("span").textContent;
-}
+
+    const index = parentTask.subtasks.findIndex(sub => sub.title === subtaskText);
+    if (index !== -1) {
+        parentTask.subtasks.splice(index, 1);
+    }
+
+    chosenSubtask.remobe();
+};
 
 const deleteTasks = (deleteButton) => {
     const chosenTask = deleteButton.closest("li");
