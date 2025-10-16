@@ -4,6 +4,7 @@ let add = document.getElementById("add");
 let task_check = document.getElementById("task_check");
 let task_list = document.getElementById("task_list");
 
+//createTasak関数でタイトルと完了状態、子タスクの配列を持つ
 const createTask = (title)  => {
     return {
         title: title,
@@ -12,7 +13,9 @@ const createTask = (title)  => {
     };
 }
 
+//親タスク追加関数
 const addTask = (task) => {
+    //新しいメインタスクの生成
     const newtask = createTask(task);
     tasks.push(newtask);
 
