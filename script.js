@@ -34,7 +34,7 @@ const addTask = (task) => {
         subtaskInput.type = "text";
         subtaskInput.placeholder = "子タスクを入力";
         
-        subtaskInput.addEventListener("keypress", e =>{
+        subtaskInput.addEventListener("keypress", (e) =>{
             if (e.key === "Enter" && subtaskInput.value.trim() !=="") {
                 addSubtask(subtaskInput.value, subtaskList, newtask);
                 subtaskInput.remove();
@@ -47,7 +47,7 @@ const addTask = (task) => {
     });
     //親削除ボタンの追加
     const deleteButton = document.createElement("button");
-    deleteButton.innerHTML = "削除";
+    deleteButton.textContent = "削除";
     listItem.appendChild(deleteButton);
 
     //削除機能
@@ -64,9 +64,10 @@ const addSubtask = (subtask, subtaskList, parentTask) => {
     parentTask.subtasks.push(newSubtask);
 
     const sublistItem = document.createElement("li");
+
     const subtaskSpan = doucument.createElement("span");
-    sublistItem.textContent = subtask;
-    subtaskList.appendChild(subtaskSpan);
+    subtaskSpan.textContent = subtask;
+    sublistItem.appendChild(subtaskSpan);
 
     const deleteSubtaskButton = doucument.createElement("button");
     deleteSubtaskButton.textContent = "削除";
@@ -76,9 +77,9 @@ const addSubtask = (subtask, subtaskList, parentTask) => {
         deleteSubtaskButton(deleteSubtaskButton, parentTask);
     });
     subtaskList.appendChild(sublistItem);
-}
+};
 //子タスクの削除関数
-const deleSubtask = (deleSubtaskButton) => {
+const deleteSubtask = (deleSubtaskButton, parentTask) => {
     const chosenSubtask = deleSubtaskButton.closest("li");
     const subtaskText = chosenSubtask.querySelector("span").textContent;
 
@@ -87,10 +88,10 @@ const deleSubtask = (deleSubtaskButton) => {
         parentTask.subtasks.splice(index, 1);
     }
 
-    chosenSubtask.remobe();
+    chosenSubtask.remove();
 };
 
-const deleteTasks = (deleteButton) => {
+const deleteTask = (deleteButton) => {
     const chosenTask = deleteButton.closest("li");
     task_list.removeChild(chosenTask);
 };
@@ -98,6 +99,8 @@ const deleteTasks = (deleteButton) => {
 add.addEventListener("click", evt => {
     evt.preventDefault();
     const task = task_input.value;
-    addTask(task);
-    task_input.value = "";
+    if (task !== "") {
+     addTask(task);
+     task_input.value = "";
+    }
 });
