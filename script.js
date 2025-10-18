@@ -34,6 +34,7 @@ const addTask = (task) => {
 
     //子タスク細分化ボタンをクリックした時の処理
     addSubtaskButton.addEventListener("click", () => {
+        
         //子タスク入力欄の生成
         const subtaskInput = document.createElement("input");
         subtaskInput.type = "text";
@@ -52,13 +53,13 @@ const addTask = (task) => {
         subtaskInput.focus();
         
     });
-    
-    //親削除ボタンの追加
+
+    //削除ボタンの追加
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "削除";
     listItem.appendChild(deleteButton);
 
-    //削除機能
+    //削除ボタンをクリックした時の処理
     deleteButton.addEventListener("click", evt => {
         evt.preventDefault();
         deleteTask(deleteButton);
