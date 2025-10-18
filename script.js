@@ -27,16 +27,19 @@ const addTask = (task) => {
     const subtaskList = document.createElement("ul");
     listItem.appendChild(subtaskList);
 
-    //子追加ボタン
+    //子タスク細分化ボタン
     const addSubtaskButton = document.createElement("button");
     addSubtaskButton.innerHTML = "細分化";
     listItem.appendChild(addSubtaskButton);
 
+    //子タスク細分化ボタンをクリックした時の処理
     addSubtaskButton.addEventListener("click", () => {
+        //子タスク入力欄の生成
         const subtaskInput = document.createElement("input");
         subtaskInput.type = "text";
         subtaskInput.placeholder = "子タスクを入力";
         
+        //Enterを押した時の処理
         subtaskInput.addEventListener("keypress", (e) =>{
             if (e.key === "Enter" && subtaskInput.value.trim() !=="") {
                 addSubtask(subtaskInput.value, subtaskList, newtask);
@@ -44,10 +47,12 @@ const addTask = (task) => {
             }
         });
 
+        //subtaskInputをsubtaskListの直後に挿入、focusですぐに入力を可能に
         listItem.insertBefore(subtaskInput, subtaskList.nextSibling);
         subtaskInput.focus();
         
     });
+    
     //親削除ボタンの追加
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "削除";
