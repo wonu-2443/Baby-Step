@@ -1,3 +1,4 @@
+/*
 let tasks =[];
 let task_input = document.getElementById("task_input");
 let add = document.getElementById("add");
@@ -55,14 +56,14 @@ const addTask = (task) => {
     });
 
     //削除ボタンの追加
-    const deleteButton = document.createElement("button");
-    deleteButton.textContent = "削除";
-    listItem.appendChild(deleteButton);
+    const maindeleteButton = document.createElement("button");
+    maindeleteButton.textContent = "削除";
+    listItem.appendChild(maindeleteButton);
 
     //削除ボタンをクリックした時の処理
-    deleteButton.addEventListener("click", evt => {
+    maindeleteButton.addEventListener("click", evt => {
         evt.preventDefault();
-        deleteTask(deleteButton);
+        deleteTask(maindeleteButton);
     });
 
     task_list.appendChild(listItem);
@@ -113,3 +114,4 @@ add.addEventListener("click", evt => {
      task_input.value = "";
     }
 });
+*/
