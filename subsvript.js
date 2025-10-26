@@ -12,19 +12,19 @@ const create_new_task = (task_li) => { //サブタスクを作れるようにす
         new_task_input.type = "text"; //テキスト設定
         new_task_input.placeholder = "サブタスクを入力"; //入力欄の背景に文字
         
-        const new_ul = document.createElement("ul");
-        task_li.appendChild(new_task_input);
-        task_li.appendChild(new_ul);
+        const new_ul = document.createElement("ul"); //子タスクを入れるためにul要素を作成
+        task_li.appendChild(new_task_input); //task_liの子要素に入力欄を追加
+        task_li.appendChild(new_ul); //task_liにul要素を追加
 
-        new_task_input.addEventListener("keypress", (e) => {
-            if(e.key === "Enter") {
-                const text = new_task_input.value.trim();
+        new_task_input.addEventListener("keypress", (e) => { //entrerを押したときの処理
+            if(e.key === "Enter") { 
+                const text = new_task_input.value.trim(); //入力欄の値を取得し、前後の空白を削除
 
                 if (text !== "") { //空でなければ
                     const subtask_li = document.createElement("li"); //li要素を作成
                     subtask_li.textContent = text; //li要素に入力される値を文字に設定
-                    new_task_input.value = "" ;
-                    new_task_input.remove();
+                    new_task_input.value = "" ; //入力欄を空に
+                    new_task_input.remove(); //入力後に入力欄を削除
                     new_ul.appendChild(subtask_li); //ul要素の子要素に追加
 
                     task_deleBtn(subtask_li);
