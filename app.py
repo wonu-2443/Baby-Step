@@ -6,13 +6,13 @@ Folder = 'todos.json'
 
 def load():
     try:
-        with open(Folder) as f :
+        with open(Folder, "r") as f :
             return json.load(f)
     except:
         return[]
 
 def save(data):
-    with open(Folder, 'W') as f:
+    with open(Folder, 'w') as f:
         json.dump(data, f)
 
 @app.route('/')
@@ -26,7 +26,8 @@ def get_todos():
 @app.route('/tasks', methods = ['POST'])
 def add_todo():
     todos = load()
-    todos.append(request.json['title'])
+    req = request.json
+    todos.append(req)
     save(todos)
     return jsonify({'status': 'ok'})
 

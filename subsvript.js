@@ -64,3 +64,12 @@ addBtn.addEventListener("click", ()=> { //追加ボタンを押したときの�
     }
            
 });
+
+async function load() {
+    const res = await fetch("/tasks");
+    const tasks = await res.json();
+
+    tasks.forEach(todo => {
+        sub_ta
+    })
+}
