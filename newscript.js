@@ -36,4 +36,22 @@ function render() {
 };
 
 
-//DOM生成
+//DOM作成関数
+function createTaskElement(task) {
+    const li = document.createElement("li"); //li要素を作る
+
+    //テキスト
+    const span = document.createElement("span");
+    span.textContent = task.text;
+    li.appendChild(span);
+
+    //削除ボタン
+    const delbtn = document.createElement("button");
+    delbtn.textCOntent ="削除";
+
+    delbtn.addEventListener("click",() => {
+        delbtn.Task(task.id,tasks);
+        render();
+    });
+    
+}
