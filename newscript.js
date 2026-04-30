@@ -1,4 +1,4 @@
-/*
+
 //１から次はデータ型にしよう！！
 
 let tasks = []; //タスクを保存する場所
@@ -12,7 +12,7 @@ const taskList = document.getElementById("task_list");
 function render() {
     taskList.innerHTML = ""; //taskListをリセット
 
-    tasks.forEach(task => {　//全タスクの処理
+    tasks.forEach(task => { //全タスクの処理
         taskList.appendChild(createTaskElement(task)); //taskListに新しく作ったtask要素を追加
     });
 };
@@ -31,8 +31,7 @@ button.addEventListener("click", () => {
         tasks.push(newTask); //配列の追加
 
         taskInput.value = ""; //入力欄をリセット
-        render();　//表示、更新
-        };
+        render(); //表示、更新
     };
 });
 
@@ -40,7 +39,6 @@ button.addEventListener("click", () => {
 //DOM作成関数
 function createTaskElement(task) {
     const li = document.createElement("li"); //li要素を作る
-
     //テキスト
     const span = document.createElement("span");
     span.textContent = task.text;
@@ -54,37 +52,63 @@ function createTaskElement(task) {
         delbtnTask(task.id,tasks); //削除関数を呼び出す　関数は最後にまとめる
         render();
     });
-};
 
-li.appendChild(delbtn);
+    li.appendChild(delbtn);
 
-const addSubtaskbtn = document.createElement("button");
-addSubtaskbtn.textContent = "細分化";
+    const addSubtaskbtn = document.createElement("button");
+    addSubtaskbtn.textContent = "細分化";
 
-addSubtaskbtn.addEventListener("click", () => {
-    const subInput = document.createElement("input");
-    subInput.placeholder = "細分化タスクを入力";
+    addSubtaskbtn.addEventListener("click", () => {
+        if (li.querySelector("input")) return;
+        
+        const subInput = document.createElement("input");
+        subInput.placeholder = "細分化タスクを入力";
 
-    li.appendChild(subInput);
+        li.appendChild(subInput);
 
-    subInput.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
-            const text = subInput.value.trim();
+        subInput.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                const text = subInput.value.trim();
 
-            if (text !== "") {
-                const child = {
-                    id: Date.now(),
-                    text: text,
-                    children: []
-                };
+                if (text !== "") {
+                    const child = {
+                        id: Date.now(),
+                        text: text,
+                        children: []
+                    };
 
-                task.children.push(child);
-                render();
+                    task.children.push(child);
+
+                    li.removeChild(subInput);
+                    render();
                 };
             };
-        };
+        });
     });
-});
+    li.appendChild(addSubtaskbtn);
+    //子タスクの再帰表示
+    if (task.children.length > 0) {
+        const ul = document.createElement("ul");
+        task.children.forEach(child => {
+            ul.appendChild(createTaskElement(child));
+        });
 
-li.removeChild(subInput);
-render();
+        li.appendChild(ul);
+    };
+
+    return li;
+};
+
+//削除関数
+function  delbtnTask(id, taskArray) {
+    for(let i = 0; i < taskArray.length; i++) {
+        if(taskArray[i].id === id) {
+            taskArray.splice(i, 1);
+            return true
+        } else if (taskArray[i].children.length > 0){
+            const deleted = delbtnTask(id, taskArray[i].children);
+            if (deleted) return true;
+        };
+    };
+    return false;
+};
