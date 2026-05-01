@@ -35,7 +35,10 @@ button.addEventListener("click", async () => {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(newTask)
+            body: JSON.stringify({
+                userId,
+                task: newTask
+            })
         });
 
         taskInput.value = "";
@@ -97,15 +100,19 @@ function createTaskElement(task) {
                     task.children.push(child);
                     li.removeChild(subInput);
 
+                    render();
+
                     await fetch("/tasks", {
                         method: "PUT",
                         headers: {
                         "Content-Type": "application/json"
                         },
-                        body: JSON.stringify(tasks)
+                        body: JSON.stringify({
+                            userId,
+                            tasks
+                        })
                     });
                 };
-                render();
             };
         });
     });
@@ -138,12 +145,19 @@ function  delbtnTask(id, taskArray) {
     return false;
 };
 
+let userId = localStorage.getItem("userId");
+
+if (!userId) {
+    userId = crypto.randomUUID();
+    localStorage.setItem("userId", userId);
+}
+
 async function loadTasks() {
-    const res = await fetch("/tasks");
+    const res = await fetch(`/tasks?userId=${userId}`);
     tasks = await res.json();
     render();
 }
 
-completed: false
 loadTasks();
+
 
