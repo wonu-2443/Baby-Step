@@ -144,5 +144,6 @@ async function loadTasks() {
     render();
 }
 
+completed: false
 loadTasks();
 
