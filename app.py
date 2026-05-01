@@ -1,35 +1,56 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify
 import json
+import os
 
 app = Flask(__name__)
-Folder = 'todos.json'
 
-def load():
-    try:
-        with open(Folder, "r") as f :
+DATA_FILE = "tasks.json"
+
+# ======================
+# 読み込み
+# ======================
+def load_tasks():
+    if os.path.exists(DATA_FILE):
+        with open(DATA_FILE, "r", encoding="utf-8") as f:
             return json.load(f)
-    except:
-        return[]
+    return []
 
-def save(data):
-    with open(Folder, 'w') as f:
-        json.dump(data, f)
+# ======================
+# 保存
+# ======================
+def save_tasks(tasks):
+    with open(DATA_FILE, "w", encoding="utf-8") as f:
+        json.dump(tasks, f, ensure_ascii=False, indent=2)
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+# 初期データ
+tasks = load_tasks()
 
-@app.route('/tasks', methods = ['GET'])
-def get_todos():
-    return jsonify(load())
+# ======================
+# API
+# ======================
 
-@app.route('/tasks', methods = ['POST'])
-def add_todo():
-    todos = load()
-    req = request.json
-    todos.append(req)
-    save(todos)
-    return jsonify({'status': 'ok'})
+# 取得
+@app.route("/tasks", methods=["GET"])
+def get_tasks():
+    return jsonify(tasks)
 
-if __name__ == "__main__":
-    app.run(debug = True)
+# 追加
+@app.route("/tasks", methods=["POST"])
+def add_task():
+    data = request.json
+    tasks.append(data)
+    save_tasks(tasks)
+    return jsonify({"status": "ok"})
+
+# 全更新
+@app.route("/tasks", methods=["PUT"])
+def update_tasks():
+    global tasks
+    tasks = request.json
+    save_tasks(tasks)
+    return jsonify({"status": "ok"})
+
+# ======================
+app.run(debug=True)
+
+print("読み込んだtasks:", tasks)

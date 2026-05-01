@@ -18,21 +18,29 @@ function render() {
 };
 
 //親タスク追加
-button.addEventListener("click", () => {
-    const text = taskInput.value.trim(); //入力値をとって、前後の空白を消す
+button.addEventListener("click", async () => {
+    const text = taskInput.value.trim();
 
     if (text !== "") {
         const newTask = {
             id: Date.now(),
             text: text,
             children: []
-        }; //テキストの内容を指定
+        };
 
-        tasks.push(newTask); //配列の追加
+        tasks.push(newTask);
 
-        taskInput.value = ""; //入力欄をリセット
-        render(); //表示、更新
-    };
+        await fetch("/tasks", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(newTask)
+        });
+
+        taskInput.value = "";
+        render();
+    }
 });
 
 
@@ -48,8 +56,17 @@ function createTaskElement(task) {
     const delbtn = document.createElement("button");
     delbtn.textContent ="削除";
 
-    delbtn.addEventListener("click",() => {
+    delbtn.addEventListener("click",async () => {
         delbtnTask(task.id,tasks); //削除関数を呼び出す　関数は最後にまとめる
+
+        await fetch("/tasks", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(tasks)
+        });
+
         render();
     });
 
@@ -66,7 +83,7 @@ function createTaskElement(task) {
 
         li.appendChild(subInput);
 
-        subInput.addEventListener("keydown", (e) => {
+        subInput.addEventListener("keydown", async (e) => {
             if (e.key === "Enter") {
                 const text = subInput.value.trim();
 
@@ -78,14 +95,22 @@ function createTaskElement(task) {
                     };
 
                     task.children.push(child);
-
                     li.removeChild(subInput);
-                    render();
+
+                    await fetch("/tasks", {
+                        method: "PUT",
+                        headers: {
+                        "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(tasks)
+                    });
                 };
+                render();
             };
         });
     });
     li.appendChild(addSubtaskbtn);
+
     //子タスクの再帰表示
     if (task.children.length > 0) {
         const ul = document.createElement("ul");
@@ -112,3 +137,12 @@ function  delbtnTask(id, taskArray) {
     };
     return false;
 };
+
+async function loadTasks() {
+    const res = await fetch("/tasks");
+    tasks = await res.json();
+    render();
+}
+
+loadTasks();
+
